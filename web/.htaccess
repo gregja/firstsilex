@@ -1,5 +1,3 @@
-#AllowOverride None
-#Allow from All 
 <IfModule mod_rewrite.c>
     Options -MultiViews
 
