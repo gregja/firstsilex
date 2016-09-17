@@ -25,12 +25,12 @@ $app->register(new TwigServiceProvider(), array(
     'twig.options' => array('cache' => __DIR__.'/../cache'),
 ));
 $app->register(new HttpFragmentServiceProvider());
-$app['twig'] = $app->extend('twig', function ($twig, $app) {
+//$app['twig'] = $app->extend('twig', function ($twig, $app) {
     // add custom globals, filters, tags, ...
-//$app->register(new Silex\Provider\TranslationServiceProvider());
-$app['translator.messages'] = array();
-    return $twig;
-});
+    //$app->register(new Silex\Provider\TranslationServiceProvider());
+    //$app['translator.messages'] = array();
+    //return $twig;
+//});
 
 
 

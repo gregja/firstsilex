@@ -58,10 +58,10 @@ class AlbumbdForm {
            $this->crud_id = 0 ; 
         }
 
-        // Classe par défaut (CSS Bootstrap)
+        // Classe CSS par défaut (Bootstrap)
         $default_attrs = array('class'=>'form-control');
         
-        // Ajout de classes complémentaires
+        // Ajout d’attributs HTML complémentaires selon le contexte
         switch ($this->crud_context) {
             case 'C': {
                 break;
@@ -127,6 +127,8 @@ class AlbumbdForm {
             ))
             ;            
         } else {
+            // Si Consultation ou Suppression, affichage
+            // des champs verrouillés et sans contrôle
             $this->form        
             ->add('crud', HiddenType::class, array(
             ))
@@ -147,6 +149,7 @@ class AlbumbdForm {
             ;
         }
 
+        // Définition des boutons de validation selon le contexte
         switch ($this->crud_context) {
             case 'C': {
                 $this->form
@@ -191,23 +194,29 @@ class AlbumbdForm {
                     ));
                 break;
             }
-
         };        
-
     }
     
+    /**
+     * Utilise la fonction getForm() de l'objet $this->form
+     * @return type
+     */
     public function getForm() {
         return $this->form->getForm() ;
     }
-
-    private function generateForm() {
-        
-    }
     
+    /**
+     * Transmission de l'ID courant si besoin
+     * @return type
+     */
     public function getId() {
         return $this->crud_id;
     }
     
+    /**
+     * Transmission du contexte courant si besoin
+     * @return type
+     */
     public function getContext() {
         return $this->crud_context ;
     }
