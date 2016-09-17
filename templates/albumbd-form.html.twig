@@ -1,0 +1,59 @@
+{% extends "layout.html.twig" %}
+{% block content %}
+    <form method="post" novalidate >
+        <fieldset> 
+            {% set form_legend = '' %}
+            {% if data.crud == 'C' %}
+                {% set form_legend = 'Création' %}
+            {% endif %}
+            {% if data.crud == 'R' %}
+                {% set form_legend = 'Consultation' %}
+            {% endif %}
+            {% if data.crud == 'U' %}
+                {% set form_legend = 'Mise à jour' %}
+            {% endif %}
+            {% if data.crud == 'D' %}
+                {% set form_legend = 'Confirmation de suppression' %}
+            {% endif %}
+        <legend>{{form_legend}}</legend>            
+{#        <input type="hidden" name="crud" value="{{data.crud}}" />#}
+
+        {{ form_widget(form.crud, {'value':data.crud}) }}
+        {{ form_widget(form.id, {'value':data.id}) }}
+
+        {{ form_errors(form) }}
+ 
+        <div class="form-group">
+            {{ form_label(form.album, "Titre", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.album) }}
+            {{ form_widget(form.album, {'value':data.album}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.editeur, "Editeur", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.editeur) }}
+            {{ form_widget(form.editeur, {'value':data.editeur}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.auteur, "Auteur", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.auteur) }}
+            {{ form_widget(form.auteur, {'value':data.auteur}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.parution, "Parution", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.parution) }}
+            {{ form_widget(form.parution, {'value':data.parution}) }}
+        </div>
+        <div class="form-inline">
+            {% if form.return is defined %}
+            {{ form_widget(form.return, {'label':'Retour'}) }}
+            {% endif %}
+            {% if form.save is defined %}
+            {{ form_widget(form.save, {'label':'Valider'}) }}
+            {% endif %}
+            {% if form.reset is defined %}
+            {{ form_widget(form.reset, {'label':'Effacer'}) }}
+            {% endif %}
+        </div>
+        </fieldset>
+    </form> 
+{% endblock %}

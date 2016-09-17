@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Contact</title>
+	</head>
+	<body>
+
+		<form action="{{ path('contact') }}" method="post" novalidate>
+
+			<!-- en développement -->
+			{#{ form_widget(form) }#}
+
+			<!-- prénom -->
+			<p>
+				{{ form_label(form.prenom, 'Votre prénom : ') }}
+				{{ form_widget(form.prenom, {'attr' : { 'maxlength' : '30', 'placeholder' : 'par ex : Cara'} }) }}
+			</p>
+
+			<!-- nom -->
+			<p>
+				{{ form_label(form.nom, 'Votre nom : ') }}
+				{{ form_widget(form.nom, {'attr' : { 'maxlength' : '30', 'placeholder' : 'par ex : Melmou'} }) }}
+			</p>
+
+			<!-- mail -->
+			<p>
+				{{ form_label(form.mail, 'Votre mail : ') }}
+				{{ form_widget(form.mail, {'attr' : { 'maxlength' : '50', 'placeholder' : 'cara@melmou.fr'} }) }}
+			</p>
+
+			<!-- pays -->
+			<p>
+				{{ form_label(form.pays, 'Votre pays : ') }}
+				{{ form_widget(form.pays) }}
+			</p>
+
+			<!-- loisirs -->
+			<p>
+				{{ form_label(form.loisirs, 'Vos loisirs :') }}
+				{{ form_widget(form.loisirs) }}
+			</p>
+
+			<!-- question -->
+			<p>
+				{{ form_label(form.question, 'Aimez-vous Silex ?') }}
+				{{ form_widget(form.question) }}
+			</p>
+
+			<!-- jeton de sécurité -->
+			<p>
+				{{ form_widget(form._token) }}
+			</p>
+
+			<!-- erreurs -->
+			{{ form_errors(form.prenom) }}
+			{{ form_errors(form.nom) }}
+			{{ form_errors(form.mail) }}
+			{{ form_errors(form.pays) }}
+			{{ form_errors(form.loisirs) }}
+			{{ form_errors(form.question) }}
+
+			<!-- valider -->
+			<p>
+				<input type="submit" />
+			<p>
+		
+		</form>
+
+	</body>
+</html>

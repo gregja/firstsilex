@@ -1,0 +1,60 @@
+{% extends "layout.html.twig" %}
+{% block content %}
+{#    <form method="post" novalidate>#}
+{#    <form action="{{ path('/albumupdate/{id}', {'id':data.id}) }}" method="post" novalidate>#}
+{#        {{ form(form, {'method': 'POST'}) }}#}
+{{ form(form, {'method': 'POST'}) }}
+        <!-- en développement -->
+        {#{ form_widget(form) }#}
+
+   {#     {{ form_widget(data.id, {'attr' : { 'type' : 'hidden'} }) }}#}
+
+   <input type='hidden' name='data.id' value='{{data.id}}' />
+        <!-- titre de l'album -->
+        <p>
+            {{ form_label(data.album, "Titre de l'album : ") }}
+            {{ form_widget(data.album, {'attr' : 
+                { 'maxlength' : '30', 'placeholder' : 'saisissez le titre'} }) }}
+        </p>
+
+        <!-- Auteur(s) -->
+        <p>
+            {{ form_label(data.auteur, 'Auteur(s) : ') }}
+            {{ form_widget(data.auteur, {'attr' : 
+                { 'maxlength' : '30', 'placeholder' : "saisissez l'auteur"} }) }}
+        </p>
+
+        <!-- Editeur -->
+        <p>
+            {{ form_label(data.editeur, 'Editeur : ') }}
+            {{ form_widget(data.editeur, {'attr' : 
+                { 'maxlength' : '50', 'placeholder' : "saisissez l'éditeur"} }) }}
+        </p>
+
+        <!-- Date de parution  -->
+        <p>
+            {{ form_label(data.parution, 'Date de parution : ') }}
+            {{ form_widget(data.parution, {'attr' : 
+                { 'maxlength' : '10', 'placeholder' : "Date de parution (YYYY-MM-DD)"} }) }}
+        </p>
+
+        <!-- jeton de sécurité -->
+        <p>
+     {#       {{ form_widget(form._token) }}#}
+        </p>
+
+        <!-- erreurs -->
+{#        {{ form_errors(albumedit) }}#}
+        {{ form_errors(albumedit.album) }}
+        {{ form_errors(albumedit.auteur) }}
+        {{ form_errors(albumedit.editeur) }}
+        {{ form_errors(albumedit.parution) }}
+
+        <!-- valider -->
+        <p>
+        {{ form_row(form.submit, { 'label': 'Submit me' }) }}
+        <p>
+
+{#    </form>#}
+    {{ form_end(form) }}
+{% endblock %}

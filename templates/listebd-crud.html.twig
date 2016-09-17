@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="jumbotron">
-    <h2>Albums de BD</h2>
-    Le paramètre "param1" a la valeur suivante : {{param1}} (il n'est pas utilisé ici)
+    <h2>Albums de BD (CRUD)</h2>
+
+    <a class="btn btn-success btn-sm" href="{{ path('albumupdate', {'id':0, 'crud':'C'})}}">Créer</a>
    
 <table class="table table-striped">
     <thead>
@@ -13,6 +14,7 @@
             <th>Auteur(s)</th>
             <th>Editeur</th>
             <th>Parution</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>    
@@ -23,6 +25,11 @@
 	<td>{{album.auteur|title}}</td>
 	<td>{{album.editeur|title}}</td>
 	<td>{{album.parution|date("d/m/Y")}}</td>
+        <td>
+            <a class="btn btn-default btn-sm" href="{{ path('albumupdate', {'id':album.id, 'crud':'R'})}}">Afficher</a>
+            <a class="btn btn-success btn-sm" href="{{ path('albumupdate', {'id':album.id, 'crud':'U'})}}">Modifier</a>
+            <a class="btn btn-warning btn-sm" href="{{ path('albumupdate', {'id':album.id, 'crud':'D'})}}">Supprimer</a>
+        </td>
       </tr>
     {% endfor %}
     </tbody>
