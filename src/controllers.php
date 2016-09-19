@@ -19,13 +19,38 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 $app->register(new Silex\Provider\LocaleServiceProvider());
 $app->register(new Silex\Provider\ValidatorServiceProvider());
-$app->register(new Silex\Provider\TranslationServiceProvider(), array(
-    'translator.domains' => array(),
-));
 
 
-//Request::setTrustedProxies(array('127.0.0.1'));
+$app['translator.domains'] = array(
+    'messages' => array(
+        'en' => array(
+            'hello'     => 'Hello %name%',
+            'goodbye'   => 'Goodbye %name%',
+        ),
+        'fr' => array(
+            'hello'     => 'Bonjour %name%',
+            'goodbye'   => 'Au revoir %name%',
+        ),
+    ),
+    'validators' => array(
+        'fr' => array(
+            'not_numeric' => 'Cette valeur doit être un nombre.',
+            'not_blank' => 'Cette valeur ne peut etre à blanc',
+            'min_length' => 'Saisir au moins {{ limit }} caractères',
+            'max_length' => 'Saisir au plus {{ limit }} caractères'
+        ),
+    ),
+);
 
+$app->before(
+    function (Request $request) use ($app) {
+        $app['translator']->setLocale($request->getPreferredLanguage(['en', 'fr']));
+    }
+);
+
+//$app->get('/{_locale}/{message}/{name}', function ($message, $name) use ($app) {
+//    return $app['translator']->trans($message, array('%name%' => $name));
+//});
 
 $app->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array());
@@ -42,7 +67,8 @@ $app->get('/test/', function () use ($app) {
 $app->get('/testparam/{id}', function ($id) use ($app) {
     return $app['twig']->render('testparam.html.twig', 
             array(
-                'param1' => $id
+                'param1' => $id,
+                'titi' => 'gros minet'               
             ));
 })
 ->bind('testparam')
@@ -84,71 +110,11 @@ $app->get('/albumbd-register/', function () use ($app) {
 ->bind('albumbdregister')
 ;
 
-//$app->get('/albumupdate/{id}', function ($id) use ($app) {
-//    require_once 'tempdata/liste_bd_temp.php';
-//    $albums = getListeBD();
-//    if (!array_key_exists($id, $albums)) {
-//        return false ;
-//    }
-//    return $app['twig']->render('albumbd-form.html.twig', 
-//            array(
-//                'album' => $albums[$id]
-//            ));
-//})
-//->bind('albumupdate')
-//;
-
-$app->match('/albumupdate/{id}/{crud}', function (Request $request, Silex\Application $app) {
+$app->match('/albumupdate/{id}/{crud}', 
+        function (Request $request, Silex\Application $app) {
     
     $albumbdForm = new \Form\AlbumbdForm($app, $request);
     $form = $albumbdForm->getForm();
-    
-//    $form = $app['form.factory']->createBuilder(FormType::class)
-//    ->add('crud', HiddenType::class, array(
-//        'constraints' => array(new Assert\NotBlank())
-//        ))
-//    ->add('id', HiddenType::class, array(
-//        'constraints' => array(new Assert\NotBlank())
-//        ))
-//    ->add('album', TextType::class, array(
-//        'constraints' => array(new Assert\NotBlank(), 
-//            new Assert\Length(array('min' => 2)),
-//            new Assert\Length(array('max' => 30))
-//        ),
-//        'attr' => array('class'=>'form-control')        
-//    ))
-//    ->add('auteur', TextType::class, array(
-//        'constraints' => array(new Assert\NotBlank(), 
-//            new Assert\Length(array('min' => 2)),
-//            new Assert\Length(array('max' => 30))
-//        ),
-//        'attr' => array('class'=>'form-control')        
-//    ))
-//    ->add('editeur', TextType::class, array(
-//        'constraints' => array(new Assert\NotBlank(), 
-//            new Assert\Length(array('min' => 2)),
-//            new Assert\Length(array('max' => 30))
-//        ),
-//        'attr' => array('class'=>'form-control')        
-//    ))
-//    ->add('parution', DateType::class, array(
-//        'constraints' => array(new Assert\NotBlank()),
-//        'attr' => array('class'=>'form-control'),
-//        'widget' => 'single_text',
-//
-//        // do not render as type="date", to avoid HTML5 date pickers
-//        'html5' => true,
-//
-//        // add a class that can be selected in JavaScript
-//        //        'attr' => ['class' => 'js-datepicker'],
-//    ))
-//    ->add('save', SubmitType::class, array(
-//        'attr' => array('label' => 'Enregistrer', 'class'=>'btn btn-success'),
-//    ))
-//    ->add('reset', ResetType::class, array(
-//        'attr' => array('label' => 'Effacer', 'class'=>'btn btn-default'),
-//    ))
-//    ->getForm();
     
     if($request->getMethod() == 'GET'){ 
         $id = (int)$request->get('id');
@@ -168,12 +134,18 @@ $app->match('/albumupdate/{id}/{crud}', function (Request $request, Silex\Applic
         } else {
             if (!array_key_exists($id, $albums)) {
                 // redirection
-                //return $app->abort('404', 'Resource not found');
-                return $app->redirect($app['url_generator']->generate('albumotfound'));
+                return $app->redirect($app['url_generator']
+                        ->generate('albumotfound'));
             } else {
-                // error_log(var_export($albums, true));
                 foreach($albums[$id] as $key=>$value) {
-                    $data[$key] = $app->escape($value);
+                    if ($key == 'parution') {
+                        // la date de parution doit être formatée selon le 
+                        // format attendu par le plugin jQuery
+                        $tmpdate = new DateTime($value);
+                        $data[$key] = $tmpdate->format('Y/m/d');
+                    } else {
+                        $data[$key] = $app->escape($value);
+                    }
                 };
                 // On ajoute la notion de CRUD à notre jeu de données 
                 $data['crud'] = $crud ;
@@ -185,9 +157,7 @@ $app->match('/albumupdate/{id}/{crud}', function (Request $request, Silex\Applic
         $form->handleRequest($request);
         $data = $form->getData();
         if ($form->isSubmitted() && $form->isValid()) {
-            error_log('formulaire OK :)');
-            error_log(var_export($data, true));
-//
+
 //    $user = new User();
 //    $user->setUsername($data['username']);
 //    $user->setEmail($data['email']);
@@ -196,19 +166,22 @@ $app->match('/albumupdate/{id}/{crud}', function (Request $request, Silex\Applic
 //    $em = $this->getDoctrine()->getManager();
 //    $em->persist($user);
 //    $em->flush();
-//    
+   
 //            $session = $this->getRequest()->getSession();
 //            $session->getFlashBag()->add('message', 'Article saved!');
             
             // redirection
             if (isset($_POST['form']['return'])) {
-                return $app->redirect($app['url_generator']->generate('listebd-crud'));                
+                return $app->redirect($app['url_generator']
+                        ->generate('listebd-crud'));                
             } else {
-                return $app->redirect($app['url_generator']->generate('albumbdregister'));
+                return $app->redirect($app['url_generator']
+                        ->generate('albumbdregister'));
             }
         } else {
-            error_log('formulaire BAD :(');
-            error_log(var_export($data, true));            
+            // Date de parution à reformater selon le format défini 
+            // sur jQueryUI Datepicker
+            $data['parution'] = $data['parution']->format('Y/m/d');         
         }
     }
     return $app['twig']->render(

@@ -10,11 +10,13 @@ use Silex\Provider\HttpFragmentServiceProvider;
 //use Silex\Provider\UrlGeneratorServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 
-// formulaire
+// formulaire et traduction
 use Silex\Provider\FormServiceProvider;
-//use Silex\Provider\TranslationServiceProvider;
+use Silex\Provider\LocaleServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 
 $app = new Application();
+
 //$app->redirect(new SessionServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 $app->register(new AssetServiceProvider());
@@ -25,6 +27,7 @@ $app->register(new TwigServiceProvider(), array(
     'twig.options' => array('cache' => __DIR__.'/../cache'),
 ));
 $app->register(new HttpFragmentServiceProvider());
+
 //$app['twig'] = $app->extend('twig', function ($twig, $app) {
     // add custom globals, filters, tags, ...
     //$app->register(new Silex\Provider\TranslationServiceProvider());
@@ -32,11 +35,11 @@ $app->register(new HttpFragmentServiceProvider());
     //return $twig;
 //});
 
-
-
-// formulaire
+// formulaire et traduction
 $app->register(new FormServiceProvider());
-//$app->register(new TranslationServiceProvider());
-
+$app->register(new Silex\Provider\LocaleServiceProvider());
+$app->register(new Silex\Provider\TranslationServiceProvider(), array(
+    'locale_fallbacks' => array('en'),
+));
 
 return $app;

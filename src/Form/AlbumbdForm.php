@@ -51,9 +51,14 @@ class AlbumbdForm extends \Form\CrudstdForm {
                 'attr' => $this->default_attrs        
             ))
             ->add('editeur', TextType::class, array(
-                'constraints' => array(new Assert\NotBlank(), 
-                    new Assert\Length(array('min' => 2)),
-                    new Assert\Length(array('max' => 30))
+                'constraints' => array(
+                    new Assert\NotBlank(array('message'=>'not_blank')), 
+                    new Assert\Length(array(
+                        'min' => 2, 
+                        'minMessage'=> "min_length")),
+                    new Assert\Length(array(
+                        'max' => 30, 
+                        'maxMessage'=> "max_length"))
                 ),
                 'attr' => $this->default_attrs       
             ));
