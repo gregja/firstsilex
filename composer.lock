@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "286df896d200d34f46c51c3e5d084484",
-    "content-hash": "c4f9596244758a08c2432e69ef30577a",
+    "hash": "ba7b16abf5113682ce028d3b03116dcc",
+    "content-hash": "42df732b63456adb1b93e6af8b9d711d",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -2291,6 +2291,69 @@
             "time": "2016-09-02 02:12:52"
         },
         {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.2.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/2f732eaa91b5665274689b1d40b285a7bacdc37f",
+                "reference": "2f732eaa91b5665274689b1d40b285a7bacdc37f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2015-09-12 10:08:34"
+        },
+        {
             "name": "twig/twig",
             "version": "v1.24.2",
             "source": {
@@ -2350,6 +2413,57 @@
                 "templating"
             ],
             "time": "2016-09-01 17:50:53"
+        },
+        {
+            "name": "voilab/tctable",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/voilab/tctable.git",
+                "reference": "0e3b1083898fe8909f9dd306c2e1e73b0db7b7b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/voilab/tctable/zipball/0e3b1083898fe8909f9dd306c2e1e73b0db7b7b2",
+                "reference": "0e3b1083898fe8909f9dd306c2e1e73b0db7b7b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "tecnickcom/tcpdf": "6.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "voilab\\tctable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Voilab",
+                    "email": "fabien@voilab.org",
+                    "homepage": "http://www.voilab.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Create quickly and efficiently tables without HTML formatting and with advanced page break options",
+            "homepage": "http://www.voilab.ch",
+            "keywords": [
+                "TCPDF",
+                "pdf",
+                "table",
+                "tctable",
+                "voilab"
+            ],
+            "time": "2016-05-31 12:46:46"
         }
     ],
     "packages-dev": [],

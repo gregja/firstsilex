@@ -28,12 +28,6 @@ $app->register(new TwigServiceProvider(), array(
 ));
 $app->register(new HttpFragmentServiceProvider());
 
-//$app['twig'] = $app->extend('twig', function ($twig, $app) {
-    // add custom globals, filters, tags, ...
-    //$app->register(new Silex\Provider\TranslationServiceProvider());
-    //$app['translator.messages'] = array();
-    //return $twig;
-//});
 
 // formulaire et traduction
 $app->register(new FormServiceProvider());
@@ -43,3 +37,11 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
 ));
 
 return $app;
+
+
+//$app['twig'] = $app->extend('twig', function ($twig, $app) {
+    // add custom globals, filters, tags, ...
+    //$app->register(new Silex\Provider\TranslationServiceProvider());
+    //$app['translator.messages'] = array();
+    //return $twig;
+//});
