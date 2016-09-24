@@ -1,0 +1,39 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div class="listepersons_crud">
+    <h2>Liste de personnes (CRUD)</h2>
+
+    <a class="btn btn-success btn-sm" href="{{ path('person-crud', {'id':0, 'crud':'C'})}}">Créer</a>
+   
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Email</th>
+            <th>Genre</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>    
+    {% for person in persons %}
+      <tr data-id="{{person.id}}">
+	<td>{{person.first_name|title}}</td>
+	<td>{{person.last_name|capitalize}}</td>
+	<td>{{person.email}}</td>
+	<td>{{person.gender}}</td>
+        <td>
+            <a class="btn btn-default btn-sm" href="{{ path('person-crud', {'id':person.id, 'crud':'R'})}}">Afficher</a>
+            <a class="btn btn-success btn-sm" href="{{ path('person-crud', {'id':person.id, 'crud':'U'})}}">Modifier</a>
+            <a class="btn btn-warning btn-sm" href="{{ path('person-crud', {'id':person.id, 'crud':'D'})}}">Supprimer</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    {% autoescape false %}
+    {{barre_pagination}}
+    {% endautoescape %}    
+</div>
+{% endblock %}

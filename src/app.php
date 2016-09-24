@@ -36,6 +36,12 @@ $app->register(new Silex\Provider\TranslationServiceProvider(), array(
     'locale_fallbacks' => array('en'),
 ));
 
+use Silex\Provider\DoctrineServiceProvider;
+$app->register(new DoctrineServiceProvider());
+
+// Mot de passe MySQL par défaut :
+// - sur WampServer et XAMPP : "" 
+// - sur MAMP :  "root"  
 $app['db.options'] = array(
     'driver' => 'pdo_mysql',
     'host' => '127.0.0.1',
@@ -47,10 +53,3 @@ $app['db.options'] = array(
 
 return $app;
 
-
-//$app['twig'] = $app->extend('twig', function ($twig, $app) {
-    // add custom globals, filters, tags, ...
-    //$app->register(new Silex\Provider\TranslationServiceProvider());
-    //$app['translator.messages'] = array();
-    //return $twig;
-//});

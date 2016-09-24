@@ -1,0 +1,59 @@
+{% extends "layout.html.twig" %}
+{% block content %}
+    <form method="post" novalidate >
+        <fieldset> 
+            {% set form_legend = '' %}
+            {% if data.crud == 'C' %}
+                {% set form_legend = 'Création' %}
+            {% endif %}
+            {% if data.crud == 'R' %}
+                {% set form_legend = 'Consultation' %}
+            {% endif %}
+            {% if data.crud == 'U' %}
+                {% set form_legend = 'Mise à jour' %}
+            {% endif %}
+            {% if data.crud == 'D' %}
+                {% set form_legend = 'Confirmation de suppression' %}
+            {% endif %}
+        <legend>{{form_legend}}</legend>            
+{#        <input type="hidden" name="crud" value="{{data.crud}}" />#}
+
+        {{ form_widget(form.crud, {'value':data.crud}) }}
+        {{ form_widget(form.id, {'value':data.id}) }}
+
+        {{ form_errors(form) }}
+ 
+        <div class="form-group">
+            {{ form_label(form.first_name, "Nom", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.first_name) }}
+            {{ form_widget(form.first_name, {'value':data.first_name}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.last_name, "Prénom", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.last_name) }}
+            {{ form_widget(form.last_name, {'value':data.last_name}) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email, "Email", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.email) }}
+            {{ form_widget(form.email, {'value':data.email}) }}
+        </div>        
+        <div class="form-group">
+            {{ form_label(form.gender, "Genre", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_errors(form.gender) }}
+            {{ form_widget(form.gender, {'value':data.gender}) }}
+        </div>
+        <div class="form-inline">
+            {% if form.return is defined %}
+            {{ form_widget(form.return, {'label':'Retour'}) }}
+            {% endif %}
+            {% if form.save is defined %}
+            {{ form_widget(form.save, {'label':'Valider'}) }}
+            {% endif %}
+            {% if form.reset is defined %}
+            {{ form_widget(form.reset, {'label':'Effacer'}) }}
+            {% endif %}
+        </div>
+        </fieldset>
+    </form> 
+{% endblock %}
