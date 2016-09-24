@@ -220,7 +220,7 @@ $app->get('/listebd-xml/', function () use ($app) {
                 $b->appendChild($datepub);
                 $r->appendChild($b);
             }
-$xml_output = $doc->saveXML();
+            $xml_output = $doc->saveXML();
             // Définition des entêtes HTTP qui vont permettre au navigateur
             // de comprendre que le document reçu est un fichier XML
             $nom_fichier = 'listeBD';
@@ -238,7 +238,7 @@ $xml_output = $doc->saveXML();
             }
             $response->setStatusCode(200, 'OK');
             $response->setContent($xml_output);
-            //$response->send();
+
             return $response;
         })
         ->bind('listebd-xml')
@@ -272,6 +272,46 @@ $app->get('/listebd-json/', function () use ($app) {
         ->bind('listebd-json')
 ;
 
+$app->get('/listebd-csv/', function () use ($app) {
+            require_once 'tempdata/liste_bd_temp.php';
+            $books = getListeBD();
+
+            $csv = 'titre;auteur;editeur;parution'.PHP_EOL;
+            foreach ($books as $book) {
+                $csvdata = array();
+                foreach (array_values($book) as $tmpdata) {
+                    // c'est moche de faire un "utf8_decode" mais si on veut
+                    // que les utilisateurs puissent ouvrir facilement le fichier
+                    // avec Excel, on n'a pas le choix. 
+                    // (Libre Office sait importer de l'UTF-8 sans problème)
+                    $csvdata [] = '"'.trim(utf8_decode($tmpdata)).'"';
+                }
+                $csv .= implode($csvdata, ';'). PHP_EOL;
+            }
+
+            // Définition des entêtes HTTP qui vont permettre au navigateur
+            // de comprendre que le document reçu est un fichier XML
+            $nom_fichier = 'listeBD';
+
+            $params = array();
+            $params['Content-type'] = 'application/vnd.ms-excel';
+            $params['Content-Disposition'] = "attachment; filename={$nom_fichier}.csv";
+            $params['Pragma'] = 'no-cache';
+            $params['Cache-Control'] = 'no-store, no-cache, must-revalidate';
+            $params['Expires'] = 'Sat, 26 Jul 1997 05:00:00 GMT';
+
+            $response = new Response();
+            foreach ($params as $paramkey => $paramval) {
+                $response->headers->set($paramkey, $paramval);
+            }
+            $response->setStatusCode(200, 'OK');
+            $response->setContent($csv);
+
+            return $response;
+        })
+        ->bind('listebd-csv')
+;
+        
 $app->get('/albumbd-not-found/', function () use ($app) {
 
             return $app['twig']->render('albumbdnotfound.html.twig', array());
