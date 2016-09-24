@@ -11,7 +11,7 @@
         <script src="{{ asset('js/jquery-ui.min.js')}}"></script>
         <link href="{{ asset('js/jquery-ui.min.css') }}" rel="stylesheet" type="text/css" />
     </head>
-    <body>
+    <body>     
         <!-- Fixed navbar -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container"> 
@@ -38,6 +38,7 @@
                                 <li><a href="{{ path('testparam', {'id':'200'})}}">Page de test avec paramètre 200</a></li>
                                 <li><a href="{{ path('listebd', {'id':'200'})}}">Albums de BD</a></li>
                                 <li><a href="{{ path('listebd-crud')}}">Albums de BD (CRUD)</a></li>
+                                <li><a href="{{ path('dashboard-01')}}">Dashboard 1</a></li>
                             </ul>
                         </li>
                     </ul>

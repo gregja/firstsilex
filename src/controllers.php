@@ -502,108 +502,32 @@ $app->match('/albumupdate-draft/{id}', function (Request $request, Silex\Applica
         })
         ->bind('albumupdate-draft');
 
-$app->match('/albumupdatex/{id}', function(Request $request, $id) use ($app) {
+$app->get('/dashboard-01/', function () use ($app) {
 
-            // formulaire
-            $albumbdType = new \Form\AlbumbdType();
-            $form = $app['form.factory']->create(\Form\AlbumbdType::class);
-            $data = null;
-            if ($request->getMethod() == 'GET') {
-                $id = (int) $id;
-                require_once 'tempdata/liste_bd_temp.php';
-                $albums = getListeBD();
-                if (!array_key_exists($id, $albums)) {
-                    // redirection
-                    return $app->redirect($app['url_generator']->generate('albumbd-not-found'));
-                } else {
-                    $data = $albums[$id];
-                }
-            }
-            if ($request->getMethod() == 'POST') {
-                //$form->handleRequest($request);
-                $form->bind($request);
-                if ($form->isValid()) {
-
-                    // données
-                    $data = $form->getData();
-
-                    // redirection
-                    return $app->redirect($app['url_generator']->generate('albumbdregister'));
-                }
-            }
-
-            return $app['twig']->render(
-                            'albumbd-form.html.twig', array(
-                        'form' => $form->createView(),
-//            'data' => $data
-            ));
-        })
-        ->bind('albumupdatex')
-;
-
-// contact
-//$app->match('/exportpdf/', function(Request $request) use ($app){
-//
-//$html = $this->renderView("xxxxPdfBundle:Pdf:test.html.twig", array("foo" => $bar));
-//return new Response(
-//    $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-//    200,
-//    array(
-//        'Cache-Control'         => 'no-cache, must-revalidate, post-check=0, pre-check=0',
-//        'Content-Type'          => 'application/pdf',
-//        'Content-Disposition'   => 'attachment; filename='.$file
-//    )
-//);
-//->bind('exportpdf')
-//;
-// contact
-$app->match('/contact/', function(Request $request) use ($app) {
-
-//    $albumbdType = new \Form\AlbumbdType();
-//    $form = $app['form.factory']->create(\Form\AlbumbdType::class);
-            // formulaire
-            $contactType = new \Form\ContactType();
-            $form = $app['form.factory']->create(\Form\ContactType::class);
-
-            // vérification
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                if ($form->isValid()) {
-
-                    // données
-                    $data = $form->getData();
-
-                    // envoi par mail
-                    $message = \Swift_Message::newInstance();
-                    $message
-                    ->setFrom($data['mail'])
-                    ->setTo('VOTRE.MAIL')
-                    ->setSubject("Informations d'un contact")
-                    ->setBody(
-                            $app['twig']->render('mail.txt.twig', array('data' => $data))
-                    )
-                    ;
-
-                    $app['mailer']->send($message);
-
-                    // redirection
-                    return $app->redirect($app['url_generator']->generate('contact-confirmation'));
-                }
-            }
-
-            return $app['twig']->render(
-                            'contact.html.twig', array(
-                        'form' => $form->createView()
-            ));
-        })
-        ->bind('contact')
-;
-
-// confirmation de contact
-$app->get('/contact-confirmation', function() use($app) {
-            return $app['twig']->render('contact-confirmation.html.twig');
-        })
-        ->bind('contact-confirmation')
+    $series =
+        [[
+            'name'=> 'Tokyo',
+            'data'=> [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        ], [
+            'name'=> 'New York',
+            'data'=> [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+        ], [
+            'name'=> 'Berlin',
+            'data'=> [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+        ], [
+            'name'=> 'London',
+            'data'=> [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+        ]];
+    $mois = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jui',
+                'Jul', 'Aou', 'Sep', 'Oct', 'Nov', 'Déc'];
+    
+    return $app['twig']->render('dashboard.html.twig', array(
+                'datas' => json_encode($series),
+                'titre' => 'Température moyenne mensuelle',
+                'mois'  => json_encode($mois),
+    ));
+})
+->bind('dashboard-01')
 ;
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {

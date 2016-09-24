@@ -1,0 +1,55 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+  
+<div id="dashboard-container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+$(function () {
+    // désactivation de l'échappement automatique de Twig
+    {% autoescape false %}
+        var datas = {{datas}};
+        var mois = {{mois}};
+    {% endautoescape %}
+    $('#dashboard-container').highcharts({
+        title: {
+            text: '{{titre}}',
+            x: -20 //center
+        },
+        subtitle: {
+            text: 'Source: WorldClimate.com',
+            x: -20
+        },
+        xAxis: {
+            categories: mois
+        },
+        yAxis: {
+            title: {
+                text: 'Temperature (°C)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        // injection ici des données provenant de la route 
+        series: datas
+    });
+});
+</script>
+
+{% endblock %}
