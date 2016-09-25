@@ -1,0 +1,56 @@
+
+
+/* CSS pour l'affichage des datagrids avec tablesort     */
+/*  http://localhost/tablesort-gh-pages/demo/index.html  */
+
+th.sort-header::-moz-selection { background:transparent; }
+th.sort-header::selection      { background:transparent; }
+th.sort-header { cursor:pointer; }
+table th.sort-header:after {
+  content:'';
+  float:right;
+  margin-top:7px;
+  border-width:0 4px 4px;
+  border-style:solid;
+  border-color:#404040 transparent;
+  visibility:hidden;
+  }
+table th.sort-header:hover:after {
+  visibility:visible;
+  }
+table th.sort-up:after,
+table th.sort-down:after,
+table th.sort-down:hover:after {
+  visibility:visible;
+  opacity:0.4;
+  }
+table th.sort-up:after {
+  border-bottom:none;
+  border-width:4px 4px 0;
+  }
+
+table>tbody>tr.sort:nth-child(odd)  {
+	  background-color: #e4e4e4;  
+}
+
+table>tbody>tr.sort:hover {
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.4;
+  filter: alpha(opacity=60);
+}
+
+.container_900 {
+	width: 900px;
+}
+container_800 {
+	width: 800px;
+}
+.container_700 {
+	width: 700px;
+}
+.container_600 {
+	width: 600px;
+}
+

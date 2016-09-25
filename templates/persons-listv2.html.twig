@@ -1,12 +1,15 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
+    
+<script src="{{ asset('js/tablesort_gh-pages.min.js')}}"></script>
+
 <div class="listepersons_crud">
     <h2>Liste de personnes (CRUD)</h2>
 
     <a class="btn btn-success btn-sm" href="{{ path('person-crud', {'id':0, 'crud':'C'})}}">Créer</a>
    
-<table class="table table-striped">
+<table class="table table-striped" id="datagrid">
     <thead>
         <tr>
             <th>Nom</th>
@@ -36,4 +39,11 @@
     {{barre_pagination}}
     {% endautoescape %}    
 </div>
+
+<script>
+    $(document).ready(function() {
+        var datagrid = new Tablesort(document.getElementById('datagrid'));
+    });
+
+</script>
 {% endblock %}

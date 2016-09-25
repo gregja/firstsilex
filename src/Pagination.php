@@ -22,6 +22,10 @@
  * Exemple d'utilisation : 
  *       $barre_pagination = new \Pagination($nblines['comptage'], $offset, 
  *                                 $nbl_par_page, '', array(), true); 
+ * 
+ * @author Gregory Jarrige
+ * @version 0.1 (2016-09-25)
+ * 
  */
 
 class Pagination {
